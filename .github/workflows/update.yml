@@ -27,7 +27,15 @@ jobs:
           # change our version.
           find build.properties -type f -exec sed -i -E "s/(^app.VERSION = )(.*$)/\1$VERSION/g" {} \;
           COMMIT_MSG="update: FireFox ESR $VERSION"
+          echo $COMMIT_MSG
+        else
+          echo "no"
         fi
+        curl --version
+        find --version
+        grep --version
+        sed --version
+
 
     - name: Commit changes
       if: ${{ env.COMMIT_MSG != null }}
