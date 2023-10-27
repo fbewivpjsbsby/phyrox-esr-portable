@@ -1,8 +1,8 @@
 name: released
 
 on:
-  release:
-    types: [published]
+  # release:
+    # types: [published]
 
 jobs:
   virustotal:
