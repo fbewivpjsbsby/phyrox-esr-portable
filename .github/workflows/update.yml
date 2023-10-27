@@ -27,9 +27,7 @@ jobs:
         if [[ $(find build.properties -type f -exec grep -P -o '(?<=^app.version = ).*$' {} \;) != $VERSION ]]; then
           # change our version.
           find build.properties -type f -exec sed -i -E "s/(^app.version = )(.*$)/\1$VERSION/g" {} \;
-          COMMIT_MSG="update: FireFox ESR $VERSION"
-
-          echo $COMMIT_MSG
+          export COMMIT_MSG="update: FireFox ESR $VERSION"
         fi
 
     - name: Commit changes
