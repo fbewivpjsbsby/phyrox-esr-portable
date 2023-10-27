@@ -26,11 +26,11 @@ jobs:
         echo $VERSION
 
         ls -l
-        echo $(find build.properties -type f -exec grep -P -o '(?<=^app.VERSION = ).*$' {} \;)
+        echo $(find build.properties -type f -exec grep -P -o '(?<=^app.version = ).*$' {} \;)
         # check our version.
-        if [[ $(find build.properties -type f -exec grep -P -o '(?<=^app.VERSION = ).*$' {} \;) == $VERSION ]]; then
+        if [[ $(find build.properties -type f -exec grep -P -o '(?<=^app.version = ).*$' {} \;) == $VERSION ]]; then
           # change our version.
-          find build.properties -type f -exec sed -i -E "s/(^app.VERSION = )(.*$)/\1$VERSION/g" {} \;
+          find build.properties -type f -exec sed -i -E "s/(^app.version = )(.*$)/\1$VERSION/g" {} \;
           COMMIT_MSG="update: FireFox ESR $VERSION"
 
           echo $COMMIT_MSG
