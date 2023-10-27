@@ -28,6 +28,7 @@ jobs:
           # change our version.
           find build.properties -type f -exec sed -i -E "s/(^app.version = )(.*$)/\1$VERSION/g" {} \;
           echo "COMMIT_MSG=update: FireFox ESR $VERSION" >> "$GITHUB_ENV"
+          echo "VERSION=$VERSION" >> "$GITHUB_ENV"
         fi
 
     - name: Commit changes
