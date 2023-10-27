@@ -27,11 +27,8 @@ jobs:
         if [[ $(find build.properties -type f -exec grep -P -o '(?<=^app.version = ).*$' {} \;) != $VERSION ]]; then
           # change our version.
           find build.properties -type f -exec sed -i -E "s/(^app.version = )(.*$)/\1$VERSION/g" {} \;
-          export COMMIT_MSG="update: FireFox ESR $VERSION"
-          echo $COMMIT_MSG
+          echo "COMMIT_MSG=update: FireFox ESR $VERSION" >> "$GITHUB_ENV"
         fi
-
-        echo $COMMIT_MSG
 
     - name: Commit changes
       if: ${{ env.COMMIT_MSG != null }}
