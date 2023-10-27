@@ -18,7 +18,7 @@ jobs:
         token: ${{ secrets.PAT }}
 
     - name: change version
-      shell: bash
+      # shell: bash
       run: |
         # get firefox version.
         VERSION=$(curl -Ls -I -o /dev/null -w %{url_effective} 'https://www.mozilla.org/firefox/organizations/notes/' | grep -P -o '(?<=firefox\/).*(?=\/releasenotes.*$)')
