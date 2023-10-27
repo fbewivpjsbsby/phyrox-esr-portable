@@ -30,6 +30,7 @@ jobs:
           export COMMIT_MSG="update: FireFox ESR $VERSION"
           echo $COMMIT_MSG
         fi
+
         echo $COMMIT_MSG
 
     - name: Commit changes
