@@ -2,9 +2,6 @@ name: update
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - update
   schedule:
     - cron: '0 */2 * * *'
 
@@ -18,6 +15,7 @@ jobs:
         token: ${{ secrets.PAT }}
 
     - name: change version
+      shell: bash
       run: |
         # get firefox version.
         VERSION=$(curl -Ls -I -o /dev/null -w %{url_effective} 'https://www.mozilla.org/firefox/organizations/notes/' | grep -P -o '(?<=firefox\/).*(?=\/releasenotes.*$)')
