@@ -1,0 +1,39 @@
+name: update
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - update
+  schedule:
+    - cron: '0 */2 * * *'
+
+jobs:
+  check_firefox:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3.3.0
+      with:
+        fetch-depth: 0
+        token: ${{ secrets.PAT }}
+
+    - name: change version
+      # shell: bash
+      run: |
+        # get firefox version.
+        VERSION=$(curl -Ls -I -o /dev/null -w %{url_effective} 'https://www.mozilla.org/firefox/organizations/notes/' | grep -P -o '(?<=firefox\/).*(?=\/releasenotes.*$)')
+
+        # check our version.
+        if [[ $(find build.properties -type f -exec grep -P -o '(?<=^app.version = ).*$' {} \;) != $VERSION ]]; then
+          # change our version.
+          find build.properties -type f -exec sed -i -E "s/(^app.version = )(.*$)/\1$VERSION/g" {} \;
+          echo "COMMIT_MSG=update: FireFox ESR $VERSION" >> "$GITHUB_ENV"
+          echo "VERSION=$VERSION" >> "$GITHUB_ENV"
+        fi
+
+    - name: Commit changes
+      if: ${{ env.COMMIT_MSG != null }}
+      uses: stefanzweifel/git-auto-commit-action@v4
+      with:
+        commit_message: ${{ env.COMMIT_MSG }}
+        tagging_message: ${{ env.VERSION }}
